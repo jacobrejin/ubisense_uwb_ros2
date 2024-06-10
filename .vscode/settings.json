@@ -1,0 +1,15 @@
+{
+    "ros.distro": "humble",
+    "python.autoComplete.extraPaths": [
+        "/home/rejin/Desktop/ubisense_port_Ws/build/ubisense_ros2_port",
+        "/home/rejin/Desktop/ubisense_port_Ws/install/ubisense_ros2_port/lib/python3.10/site-packages",
+        "/opt/ros/humble/lib/python3.10/site-packages",
+        "/opt/ros/humble/local/lib/python3.10/dist-packages"
+    ],
+    "python.analysis.extraPaths": [
+        "/home/rejin/Desktop/ubisense_port_Ws/build/ubisense_ros2_port",
+        "/home/rejin/Desktop/ubisense_port_Ws/install/ubisense_ros2_port/lib/python3.10/site-packages",
+        "/opt/ros/humble/lib/python3.10/site-packages",
+        "/opt/ros/humble/local/lib/python3.10/dist-packages"
+    ]
+}
