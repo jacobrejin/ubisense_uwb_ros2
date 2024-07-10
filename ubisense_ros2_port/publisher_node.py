@@ -119,9 +119,13 @@ class UWBPublisher(Node):
                     pose.orientation = quaternion
                     msg.pose = pose
 
-                    msg.covariance[0] = ubisense_msg.variance ** 2
-                    msg.covariance[7] = ubisense_msg.variance ** 2
-                    msg.covariance[14] = ubisense_msg.variance ** 2
+                    msg.covariance[0] = ubisense_msg.variance
+                    msg.covariance[7] = ubisense_msg.variance
+                    msg.covariance[14] = ubisense_msg.variance
+                    # we do not need to square or square root is as we are already getting the variance
+                    # msg.covariance[0] = ubisense_msg.variance ** 2
+                    # msg.covariance[7] = ubisense_msg.variance ** 2
+                    # msg.covariance[14] = ubisense_msg.variance ** 2
                     msg.covariance[21] = 1000000000000.0
                     msg.covariance[28] = 1000000000000.0
                     msg.covariance[35] = 1000000000000.0
