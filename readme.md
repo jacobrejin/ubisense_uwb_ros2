@@ -54,6 +54,24 @@ This causes the port to be occupied and doesnot allow the code to be rerun. To f
 
 1. The publisher node was inheriting another node(ubisense). To fix this the `ubisense`was converted into a normal class, with the relevant methods to be called. 
 
+2. remove error in the covariance matrix
+
+```python
+  # msg.covariance[0] = ubisense_msg.variance ** 2
+  # msg.covariance[7] = ubisense_msg.variance ** 2
+  # msg.covariance[14] = ubisense_msg.variance ** 2
+
+  # replaced with 
+  msg.covariance[0] = ubisense_msg.variance
+  msg.covariance[7] = ubisense_msg.variance
+  msg.covariance[14] = ubisense_msg.variance
+```
+Since we are already getting the varince from the Ubisense server, we can use it directly in the covariance matrix. The covariance matrix is a 6x6 matrix, where the diagonal elements are the variance of the x,y,z and the orientation. Assuming the variance in x and y direction are the same
+
+
+<hr>
+<br>
+
 ## Installation
 
 - The code is developed using the colcon build system. The repository is just the package from the workspace.
