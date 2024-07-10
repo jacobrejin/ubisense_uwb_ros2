@@ -7,10 +7,11 @@ import struct
 import time
 
 class Ubisense():
-    def __init__(self, udp_ip, udp_port):
+    def __init__(self, udp_port):
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        self.sock.bind((udp_ip, udp_port))
+        self.sock.bind(("0.0.0.0", udp_port))
         self.print_flag = True
+        self.success = False
 
     def parse_message_field(self, data, mask, indexes):
         field_bytes = b"".join([bytes([a & b]) for a, b in zip(data, mask)])
@@ -41,21 +42,30 @@ class Ubisense():
             if msg and self.print_flag:
                 self.get_logger().info(f"Time {msg.timestamp}: Tag {msg.tag}\n ({msg.x}m, {msg.y}m, {msg.z}m) variance {msg.variance}m")
 
+    # create a method to be called to close the socket
+    def cleanup(self):
+        self.sock.close()
+
     def parse(self, data):
         protocol_id = self.parse_message_field(data, masks.protocol_id_mask, (0, 2, 1))
         if protocol_id != "e298":
             # not a valid protocol id
+            self.success = False
             return
 
         message_id = self.parse_message_field(data, masks.message_id_mask, (2, 4, 1))
         if message_id != "026b":
             # not a valid message id
+            self.success = False
             return
 
         flags = self.parse_message_field(data, masks.flags_mask, (15, 11, -1))
         if flags != "01000000":
-            # not a valid message id
+            # flag is 0, so the data is not valid
+            self.success = False
             return
+        
+        self.success = True
 
         tag = self.parse_message_field(data, masks.tag_mask, (4, 12, 1))
         timestamp = self.parse_message_number(data, masks.timestamp_mask, (39, 31, -1), "uint64")

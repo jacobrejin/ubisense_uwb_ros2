@@ -1,6 +1,8 @@
 ubisense_uwb_publisher:
   ros__parameters:
-    udp_ip: "127.0.0.1" # UDP_IP = "192.168.10.24" # My laptop's IP when I connect to CranfieldIOT
-    udp_port: 38633
-    tag: "0011ce000000f923"
-    debug: true # 0 connect to Ubisense, 1 not connect to Ubisense and use a dummy message to spin the engine 
+    # udp_ip: "192.168.222.96"        # This should be the IP of the Ubisense server
+    udp_port: 38633                   # This should be the port to which the Ubisense server is broadcasting (your device needs to listen to this port)
+    tag: "0011ce000000f963"           # Tag for which the position data needs to be collected (check the tag backside for this value)
+    debug: false                      # 0 connect to dummy message to spin the engine , 1 to connect to Ubisense to get actual data
+    topic: "ubisense_uwb/pose"        # Topic name to which the position data needs to be published
+    logging_level: 1                  # Logging level for the node
